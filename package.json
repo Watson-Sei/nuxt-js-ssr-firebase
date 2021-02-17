@@ -9,8 +9,15 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/firebase": "^7.4.1",
+    "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.8.3",
+    "firebase": "^8.2.7",
+    "firebase-admin": "^9.5.0",
     "nuxt": "^2.14.12"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
 }
