@@ -18,3 +18,7 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+
+## push()とreplace()の使い分け重要
+[VueRouter基本ルーティング記法まとめ](https://www.ritolab.com/entry/181)

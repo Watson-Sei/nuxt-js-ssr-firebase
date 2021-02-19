@@ -1,23 +1,15 @@
 <template>
   <div>
-    <button @click="logout()">Logout</button>
+    <button @click="returnLogin">Sign In</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "index",
-  middleware: 'auth',
+  name: 'index',
   methods: {
-    logout() {
-      this.$fire.auth.signOut()
-      .then(() => {
-        console.log('ログアウトしました')
-        this.$router.push("/login")
-      }).catch((error) => {
-        console.log('ログアウトに失敗しました')
-        console.log(error)
-      })
+    returnLogin() {
+      this.$router.push("/login")
     }
   }
 }

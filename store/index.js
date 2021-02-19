@@ -7,42 +7,67 @@ export const getters = {
 }
 
 export const actions = {
-  async onAuthStateChangedAction({ commit, dispatch }, { authUser, claims }) {
-    if (!authUser) {
-      commit('RESET_USER')
+  async nuxtServerInit({ dispatch }, ctx) {
+    if (this.$fire.auth === null) {
+      throw 'nuxtServerInit Example not working - this.$fire.auth cannot be accessed.'
+    }
 
+    if (ctx.$fire.auth === null) {
+      throw 'nuxtServerInit Example not working - ctx.$fire.auth cannot be accessed.'
+    }
+
+    if (ctx.app.$fire.auth === null) {
+      throw 'nuxtServerInit Example not working - ctx.$fire.auth cannot be accessed.'
+    }
+
+    if (ctx.res && ctx.res.locals && ctx.res.locals.user) {
+      const { allClaims: claims, ...authUser } = ctx.res.locals.user
+
+      console.info(
+        'Auth User verified on server-side. User: ',
+        authUser,
+        'Claims:',
+        claims
+      )
+
+      await dispatch('onAuthStateChanged', {
+        authUser,
+        claims,
+      })
+    }
+  },
+
+  async onAuthStateChanged({ commit }, { authUser, claims }) {
+    if (!authUser) {
+      await this.$router.push("/login")
+      commit('RESET_STORE')
       return
     }
 
-    const { uid, email, emailVerified, displayName } = authUser
-
-    commit('SET_USER', {
-      uid,
-      email,
-      emailVerified,
-      displayName,
-      photoURL: claims.picture,
-      isAdmin: claims.custom_claim
-    })
-  },
-  async nuxtServerInit({ dispatch }, { res,req }) {
-    if (res && res.locals && res.locals.user) {
-      const { allClaims: claims, idToken: token, ...authUser } = res.locals.user
-
-      await dispatch('onAuthStateChangedAction', {
-        authUser,
-        claims,
-        token
-      })
+    if (authUser && claims) {
+      try {
+        await this.$router.push("/profile")
+      } catch (e) {
+        console.error(e)
+      }
     }
+
+    commit('SET_USER', { authUser, claims })
   }
 }
 
 export const mutations = {
-  SET_USER(state, payload) {
-    state.authUser = payload;
-  },
-  RESET_USER(state) {
+  RESET_STORE(state) {
     state.authUser = null
+  },
+  SET_USER(state, { authUser, claims }) {
+    state.authUser = {
+      uid: authUser.uid,
+      email: authUser.email,
+      emailVerified: authUser.emailVerified,
+      displayName: authUser.displayName,
+      photoURL: claims.picture,
+      isAdmin: claims.isAdmin
+    }
   }
 }

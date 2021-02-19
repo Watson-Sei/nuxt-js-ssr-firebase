@@ -47,12 +47,13 @@ export default {
           storageBucket: process.env.storageBucket,
           messagingSenderId: process.env.messagingSenderId,
           appId: process.env.appId,
+          measurementId: process.env.measurementId
         },
         services: {
           auth: {
             persistence: 'local',
             initialize: {
-              onAuthStateChangedAction: 'onAuthStateChangedAction',
+              onAuthStateChangedAction: 'onAuthStateChanged',
             },
             ssr: true
           }

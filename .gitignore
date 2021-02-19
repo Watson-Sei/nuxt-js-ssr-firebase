@@ -91,3 +91,7 @@ sw.*
 
 # enviroment
 .env
+
+# service worker
+/static/firebase-auth-sw.js
+/static/sw.js
