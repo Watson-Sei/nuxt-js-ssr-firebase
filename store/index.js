@@ -3,7 +3,8 @@ export const state = () => ({
 })
 
 export const getters = {
-  isLoggedIn: state => !!state.authUser
+  isLoggedIn: state => !!state.authUser,
+  isAdminIn: state => !!state.authUser.isAdmin
 }
 
 export const actions = {
@@ -67,7 +68,7 @@ export const mutations = {
       emailVerified: authUser.emailVerified,
       displayName: authUser.displayName,
       photoURL: claims.picture,
-      isAdmin: claims.isAdmin
+      isAdmin: claims.admin
     }
   }
 }
